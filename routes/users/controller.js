@@ -1,8 +1,25 @@
-const users = require("../../models/user");
+// const users = require("../../models/user");
+const { Users } = require("../../models"); //ambil data dari database
 
 module.exports = {
-  getAll: (req, res) => {
-    res.status(200).send({ message: "Your data is added", data: users });
+  getAll: async (req, res) => {
+    try {
+      const result = await Users.find({});
+
+      res.status(200).send({ message: "Show data Users", data: result });
+    } catch (error) {
+      console.log(error);
+    }
+    // res.status(200).send({ message: "Your data is added", data: users }); get from local data
+  },
+  addData: async (req, res) => {
+    try {
+      const result = await Users.create(req.body);
+
+      res.status(200).send({ message: "Add data Users", data: result });
+    } catch (error) {
+      console.log(error);
+    }
   },
   getById: (req, res) => {
     const getId = parseInt(req.params.id);

@@ -11,7 +11,8 @@ const {
   deleteByEmail,
   // inputUser,
   deleteByUsername,
-  deleteAll
+  deleteAll,
+  addData
 } = require("./controller");
 
 router.get("/", getAll);
@@ -26,6 +27,9 @@ router.delete("/email/:email", deleteByEmail);
 router.delete("/username/:username", deleteByUsername);
 router.delete("/", deleteAll);
 
-router.post("/", upload.single("avatar"), require("./controller").postData);
+// router.post("/", upload.single("avatar"), require("./controller").postData);
+router.post("/", addData);
+
+// router.post("/", addData);
 
 module.exports = router;

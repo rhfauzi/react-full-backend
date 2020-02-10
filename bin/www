@@ -7,7 +7,20 @@
 var app = require("../app");
 var debug = require("debug")("learn-api:server");
 var http = require("http");
+const mongoose = require("mongoose");
 const { PORT } = require("../config");
+
+mongoose
+  .connect("mongodb://localhost/todos", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
+  .then(() => {
+    console.log("Connect to mongo database");
+  })
+  .catch(error => {
+    console.log("There is something wrong", error);
+  });
 
 /**
  * Get port from environment and store in Express.

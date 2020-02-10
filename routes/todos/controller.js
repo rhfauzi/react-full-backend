@@ -1,9 +1,25 @@
-const todos = require("../../models/todos");
+// const todos = require("../../models/todos"); //ambil data dari file todo
+const { Todos } = require("../../models"); //ambil data dari database
 
 module.exports = {
-  getAll: (req, res) => {
+  getAll: async (req, res) => {
+    try {
+      const result = await Todos.find({});
+
+      res.status(200).send({ message: "Show data todos", data: result });
+    } catch (error) {
+      console.log(error);
+    }
     // res.status(200).send({ message: "welcome to todos route" });
-    res.status(200).send({ message: "your data is added", data: todos });
+  },
+  addData: async (req, res) => {
+    try {
+      const result = await Todos.create(req.body);
+
+      res.status(200).send({ message: "Add data todos", data: result });
+    } catch (error) {
+      console.log(error);
+    }
   },
   deleteById: (req, res) => {
     const newTodos = [];
