@@ -31,7 +31,7 @@ module.exports = {
   //hoby/nama/:nama
   getOne: async (req, res) => {
     try {
-      const getNama = req.params.username;
+      const getNama = req.params.nama;
       const result = await Hoby.find({ nama: getNama });
       res.status(200).send({
         message: `Get Hoby By nama = ${getNama}`,

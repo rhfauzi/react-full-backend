@@ -16,7 +16,7 @@ router.get("/", getAll);
 router.get("/id/:id", getById);
 router.get("/nama/:nama", getOne);
 
-router.put("/email/:email", updateByNama);
+router.put("/nama/:nama", updateByNama);
 
 router.delete("/nama/:nama", deleteByNama);
 
