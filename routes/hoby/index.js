@@ -20,4 +20,6 @@ router.put("/nama/:nama", updateByNama);
 
 router.delete("/nama/:nama", deleteByNama);
 
+router.get("/username/:username", require("./controller").getByUsername);
+
 module.exports = router;

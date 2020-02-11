@@ -90,5 +90,9 @@ module.exports = {
     } catch (error) {
       console.log(error);
     }
+  },
+
+  getByUsername: (req, res) => {
+    res.status(200).send({ message: "Todos route by username" });
   }
 };
