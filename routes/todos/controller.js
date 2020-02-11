@@ -1,61 +1,64 @@
-// const todos = require("../../models/todos"); //ambil data dari file todo
 const { Todos } = require("../../models"); //ambil data dari database
 
 module.exports = {
   getAll: async (req, res) => {
     try {
-      const result = await Todos.find({});
-
-      res.status(200).send({ message: "Show data todos", data: result });
+      const result = await Todos.find({}).populate("user", "username email");
+      res.status(200).send({ message: "List All Todos", data: result });
     } catch (error) {
       console.log(error);
     }
-    // res.status(200).send({ message: "welcome to todos route" });
   },
   addData: async (req, res) => {
     try {
       const result = await Todos.create(req.body);
-
-      res.status(200).send({ message: "Add data todos", data: result });
+      res.status(200).send({ message: "List has been created.", data: result });
     } catch (error) {
       console.log(error);
     }
   },
-  deleteById: (req, res) => {
-    const newTodos = [];
-    const getId = parseInt(req.params.id);
-    todos.splice(getId - 1, 1);
-
-    res
-      .status(200)
-      .send({ message: `Your data INDEX ${getId} is delete `, data: todos });
+  getById: async (req, res) => {
+    try {
+      const idku = req.params.id;
+      await Todos.findById(idku, (err, docs) => {
+        if (err) {
+          console.log(err);
+        }
+        res.status(200).send({
+          message: "Get By Id",
+          data: docs
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
-  deleteAll: (req, res) => {
-    todos.splice(0, todos.length);
-
-    res.status(200).send({ message: `All your data is delete`, data: todos });
+  updateById: async (req, res) => {
+    try {
+      const data = req.body;
+      await Todos.findByIdAndUpdate(req.params.id, data, (err, dtuser) => {
+        res.status(200).send({
+          message: "Todos has been updated",
+          data: dtuser
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
-  addTodos: (req, res) => {
-    todos.push(req.body);
-    res.status(200).send({
-      message: `Your data Have been save!`,
-      data: todos
-    });
-  },
-  editById: (req, res) => {
-    const newTodos = [];
-    todos.forEach(item => {
-      if (item.id === req.params.id) {
-        console.log(`Get id = ${req.params.id}`);
-        console.log(`id = ${item.id}`);
-        newTodos.push(req.body);
-      } else {
-        newTodos.push(item);
-      }
-    });
-    res.status(200).send({
-      message: `Your data with id ${req.params.id} Have been Edit!`,
-      data: newTodos
-    });
+  deleteById: async (req, res) => {
+    try {
+      await Todos.deleteOne({ _id: req.params.id }, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        res.status(200).send({
+          message: `Your ${req.params.id} has been deleted.`,
+          data: result
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

@@ -9,10 +9,7 @@ const {
   getByEmail,
   updateByEmail,
   deleteByEmail,
-  // inputUser,
-  deleteByUsername,
-  deleteAll,
-  addData
+  deleteByUsername
 } = require("./controller");
 
 router.get("/", getAll);
@@ -21,15 +18,11 @@ router.get("/username/:username", getByUsername);
 router.get("/email/:email", getByEmail);
 
 router.put("/email/:email", updateByEmail);
-// router.post("/", inputUser);
 
 router.delete("/email/:email", deleteByEmail);
 router.delete("/username/:username", deleteByUsername);
-router.delete("/", deleteAll);
 
-// router.post("/", upload.single("avatar"), require("./controller").postData);
-router.post("/", addData);
-
-// router.post("/", addData);
+router.post("/", upload.single("avatar"), require("./controller").addData);
+router.post("/login", require("./controller").login);
 
 module.exports = router;

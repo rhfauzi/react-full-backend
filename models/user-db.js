@@ -4,33 +4,28 @@ const Schema = mongoose.Schema;
 const usersSchema = new Schema({
   firstname: {
     type: String,
-    required: true,
-    default: "PROGRESS"
+    required: true
   },
   lastname: {
-    type: String,
-    required: false,
-    default: "PROGRESS"
+    type: String
   },
   username: {
     type: String,
-    required: true,
-    default: "PROGRESS"
+    required: true
+  },
+  address: {
+    type: String
   },
   email: {
     type: String,
-    required: true,
-    default: "PROGRESS"
+    required: true
   },
   password: {
     type: String,
-    required: true,
-    default: "PROGRESS"
+    required: true
   },
   age: {
-    type: String,
-    required: false,
-    default: "PROGRESS"
+    type: String
   }
 });
 

@@ -3,19 +3,16 @@ const router = express.Router();
 
 const {
   getAll,
+  getById,
+  updateById,
   deleteById,
-  deleteAll,
-  // addTodos,
-  editById,
   addData
 } = require("./controller");
 
 router.get("/", getAll);
-router.delete("/:id", deleteById);
-router.delete("/", deleteAll);
-// router.post("/", addTodos);
-router.put("/:id", editById);
-
-router.post("/", addData);
+router.post("/add", addData);
+router.get("/:id", getById);
+router.put("/edit/:id", updateById);
+router.delete("/delete/:id", deleteById);
 
 module.exports = router;

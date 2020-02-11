@@ -1,4 +1,4 @@
-// const users = require("../../models/user");
+//this file for controller that get data from database
 const { Users } = require("../../models"); //ambil data dari database
 
 module.exports = {
@@ -12,110 +12,150 @@ module.exports = {
     }
     // res.status(200).send({ message: "Your data is added", data: users }); get from local data
   },
+  //users/
   addData: async (req, res) => {
     try {
-      const result = await Users.create(req.body);
+      const getData = req.body;
+      const file = req.file;
+      const result = await Users.create({
+        ...getData,
+        avatar: file === undefined ? null : file.path
+      });
+
+      res.status(200).send({
+        message: "New Users has been success",
+        data: result
+      });
+
+      // const result = await Users.users.create({
+      //   firstname: req.body.firstname,
+      //   lastname: req.body.lastname,
+      //   username: req.body.username,
+      //   address: req.body.address,
+      //   email: req.body.email,
+      //   password: req.body.password,
+      //   age: req.body.age
+      // });
 
       res.status(200).send({ message: "Add data Users", data: result });
     } catch (error) {
       console.log(error);
     }
   },
-  getById: (req, res) => {
-    const getId = parseInt(req.params.id);
-    const item = users.find(element => element.id === getId);
-    if (item) {
-      res.status(200).send({ message: `Your data is By ID `, data: item });
-    } else {
-      res.status(200).send({ message: `User By ID ${getId} doesn't exist` });
-    }
-  },
-  getByUsername: (req, res) => {
-    const getUsername = req.params.username;
-    const item = users.find(element => element.username === getUsername);
-    if (item) {
+
+  //users/username/:username
+  getByUsername: async (req, res) => {
+    try {
+      const getUsername = req.params.username;
+      const result = await Users.find({ username: getUsername });
       res.status(200).send({
-        message: `Your data By Username : ${getUsername}`,
-        data: item
+        message: `Get User By Username = ${getUsername}`,
+        data: result
       });
-    } else {
-      res
-        .status(200)
-        .send({ message: `User By Username : ${getUsername} doesn't exist` });
+    } catch (error) {
+      console.log(error);
     }
   },
-  getByEmail: (req, res) => {
-    const getEmail = req.params.email;
-    const item = users.find(element => element.email === getEmail);
-    if (item) {
+
+  //users/email/:email
+  getByEmail: async (req, res) => {
+    try {
+      const getEmail = req.params.email;
+      const result = await Users.find({ email: getEmail });
       res.status(200).send({
-        message: `Your data By Email : ${getEmail}`,
-        data: item
+        message: `Get User By Email = ${getEmail}`,
+        data: result
       });
-    } else {
-      res
-        .status(200)
-        .send({ message: `User By Username : ${getEmail} doesn't exist` });
+    } catch (error) {
+      console.log(error);
     }
   },
-  updateByEmail: (req, res) => {
-    const newUsers = [];
-    const getEmail = req.params.email;
 
-    users.forEach(element => {
-      if (element.email === getEmail) {
-        newUsers.push(req.body);
-      } else {
-        newUsers.push(element);
-      }
-    });
-    res.status(200).send({
-      message: `User By Username : ${getEmail} Have Been Edit`,
-      data: newUsers
-    });
+  //users/id/:id
+  getById: async (req, res) => {
+    try {
+      const getId = req.params.id;
+      const result = await Users.find({ _id: getId });
+      res.status(200).send({
+        message: `Get User By id = ${getId}`,
+        data: result
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
-  deleteByEmail: (req, res) => {
-    const getEmail = req.params.email;
-    users.splice(getEmail, 1);
 
-    res.status(200).send({
-      message: `your data with email ${getEmail} is delete`,
-      data: users
-    });
-  },
-  deleteByUsername: (req, res) => {
-    const getUsername = req.params.username;
-    users.splice(getUsername, 1);
-
-    res.status(200).send({
-      message: `your data with username ${getUsername} is delete`,
-      data: users
-    });
-  },
-  inputUser: (req, res) => {
-    users.push(req.body);
-    res.status(200).send({ message: "your data is added", data: users });
-  },
-  deleteAll: (req, res) => {
-    users.splice(0, users.length);
-
-    res.status(200).send({ message: `All your data is delete`, data: users });
-  },
-  postData: (req, res) => {
+  updateByEmail: async (req, res) => {
     try {
       const data = req.body;
-      const file = req.file;
-
-      users.push({ ...data, avatar: file.path });
-
-      console.log(file);
-      // console.log(data);
-
-      res.status(200).send({
-        message: "New data successfully added",
-        // data: { ...data, avatar: file.path }
-        data: users
+      const getEmail = req.params.email;
+      await Users.findOneAndUpdate(
+        { email: getEmail },
+        data,
+        { new: true },
+        (err, newData) => {
+          res.status(200).send({
+            message: `Edit User by Email ${getEmail}`,
+            data: newData
+          });
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteByEmail: async (req, res) => {
+    try {
+      const getEmail = req.params.email;
+      await Users.deleteOne({ email: getEmail }, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        res.status(200).send({
+          message: `User with Email : ${getEmail} has been deleted.`,
+          data: result
+        });
       });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  deleteByUsername: async (req, res) => {
+    try {
+      const getUsername = req.params.username;
+      await Users.deleteOne({ email: getUsername }, (err, result) => {
+        if (err) {
+          console.log(err);
+        }
+        res.status(200).send({
+          message: `User with username : ${getUsername} has been deleted.`,
+          data: result
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  login: async (req, res) => {
+    try {
+      const result = await Users.findOne({ email: req.body.email });
+
+      const compared = await comparedPassword(
+        req.body.password,
+        result.password
+      );
+
+      if (compared === true) {
+        res.status(200).send({
+          message: "You are successfully logged in",
+          data: result
+        });
+      } else {
+        res.status(403).send({
+          message: "You are not an user, please register first"
+        });
+      }
     } catch (error) {
       console.log(error);
     }
