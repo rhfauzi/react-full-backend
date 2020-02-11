@@ -91,8 +91,16 @@ module.exports = {
       console.log(error);
     }
   },
-
-  getByUsername: (req, res) => {
-    res.status(200).send({ message: "Todos route by username" });
+  getByUserId: async (req, res) => {
+    try {
+      const getId = req.params.id;
+      const result = await Hoby.find({ user: getId }).populate(
+        "user",
+        "username email"
+      );
+      res.status(200).send({ message: "list data", data: result });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

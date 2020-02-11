@@ -7,7 +7,8 @@ const {
   getOne,
   getById,
   updateByNama,
-  deleteByNama
+  deleteByNama,
+  getByUserId
 } = require("./controller");
 
 router.post("/", upload.single("avatar"), require("./controller").addData);
@@ -20,6 +21,6 @@ router.put("/nama/:nama", updateByNama);
 
 router.delete("/nama/:nama", deleteByNama);
 
-router.get("/username/:username", require("./controller").getByUsername);
+router.get("/user/:id", getByUserId);
 
 module.exports = router;
