@@ -13,6 +13,10 @@ const hobySchema = new Schema({
     type: Boolean,
     required: true,
     default: true
+  },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "users"
   }
 });
 
