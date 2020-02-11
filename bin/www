@@ -10,9 +10,11 @@ var http = require("http");
 const mongoose = require("mongoose");
 const { PORT } = require("../config");
 
+// .connect("mongodb://localhost/firstdb",
+// "mongodb+srv://fauzi:fauzi123@cluster0-bxbeu.mongodb.net/test?retryWrites=true&w=majority",
+
 mongoose
   .connect(
-    // "mongodb://localhost/todos",
     "mongodb+srv://fauzi:fauzi123@cluster0-bxbeu.mongodb.net/test?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,

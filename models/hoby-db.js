@@ -20,5 +20,6 @@ const hobySchema = new Schema({
   }
 });
 
-const Hoby = mongoose.model("Hoby : ", hobySchema);
+const Hoby = mongoose.model("hoby", hobySchema);
+
 module.exports = Hoby;

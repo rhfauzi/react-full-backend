@@ -96,7 +96,7 @@ module.exports = {
       const getId = req.params.id;
       const result = await Hoby.find({ user: getId }).populate(
         "user",
-        "username email"
+        "username email firstname lastname email"
       );
       res.status(200).send({ message: "list data", data: result });
     } catch (error) {
