@@ -15,6 +15,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/todos", require("./routes/todos"));
 app.use("/users", require("./routes/users"));
+app.use("/hoby", require("./routes/hoby"));
 app.use("/assets", express.static("assets"));
 
 module.exports = app;
