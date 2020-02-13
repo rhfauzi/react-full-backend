@@ -147,6 +147,10 @@ module.exports = {
       );
 
       if (compared === true) {
+        const { email, id, username, firstname } = result;
+
+        const token = jwt.sign({ email, id, username, firstname }, "INISECRET");
+
         res.status(200).send({
           message: "You are successfully logged in",
           data: result
