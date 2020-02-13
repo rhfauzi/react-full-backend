@@ -2,13 +2,10 @@ const mongoose = require("mongoose");
 
 mongoose
   // .connect("mongodb://localhost/test", {
-  .connect(
-    "mongodb+srv://fauzi:fauzi123@cluster0-bxbeu.mongodb.net/test?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }
-  )
+  .connect("mongodb://localhost/firstdb", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log("Connect to mongo database");
   })

@@ -20,15 +20,17 @@ app.use(express.static(path.join(__dirname, "assets")));
 
 app.use(
   expressJWT({ secret: "INISECRET" }).unless({
-    patch: [
-      { url: "/", method: ["GET"] },
+    path: [
+      { url: "/", methods: ["GET"] },
+      { url: "/users", methods: ["POST"] },
       {
-        url: "/user/login",
-        method: ["post"]
+        url: "/users/login",
+        methods: ["POST"]
       }
     ]
   })
 );
+
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     return res.status(401).send({ message: "You are not a member" });

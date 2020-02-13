@@ -1,5 +1,7 @@
 //this file for controller that get data from database
 const { Users } = require("../../models"); //ambil data dari database
+const { hashPassword, comparedPassword } = require("../../helpers");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   getAll: async (req, res) => {
@@ -15,29 +17,20 @@ module.exports = {
   //users/
   addData: async (req, res) => {
     try {
-      const getData = req.body;
+      const data = req.body;
       const file = req.file;
+      const hash = await hashPassword(req.body.password);
+
       const result = await Users.create({
-        ...getData,
-        avatar: file === undefined ? null : file.path
+        ...data,
+        avatar: file === undefined ? null : file.path,
+        password: hash
       });
 
       res.status(200).send({
-        message: "New Users has been success",
+        message: "New data user is successfully added",
         data: result
       });
-
-      // const result = await Users.users.create({
-      //   firstname: req.body.firstname,
-      //   lastname: req.body.lastname,
-      //   username: req.body.username,
-      //   address: req.body.address,
-      //   email: req.body.email,
-      //   password: req.body.password,
-      //   age: req.body.age
-      // });
-
-      res.status(200).send({ message: "Add data Users", data: result });
     } catch (error) {
       console.log(error);
     }
@@ -56,7 +49,6 @@ module.exports = {
       console.log(error);
     }
   },
-
   //users/email/:email
   getByEmail: async (req, res) => {
     try {
@@ -70,7 +62,6 @@ module.exports = {
       console.log(error);
     }
   },
-
   //users/id/:id
   getById: async (req, res) => {
     try {
@@ -84,7 +75,6 @@ module.exports = {
       console.log(error);
     }
   },
-
   updateByEmail: async (req, res) => {
     try {
       const data = req.body;
@@ -136,7 +126,6 @@ module.exports = {
       console.log(error);
     }
   },
-
   login: async (req, res) => {
     try {
       const result = await Users.findOne({ email: req.body.email });
